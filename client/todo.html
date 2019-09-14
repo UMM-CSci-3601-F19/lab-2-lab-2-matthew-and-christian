@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TODOS</title>
+  <link rel="stylesheet" type="text/css" href="css/todo.css">
+  <script type="text/javascript" src="javascript/util.js"></script>
+  <script type="text/javascript" src="javascript/todo.js"></script>
+</head>
+<body>
+<button type="button" id="getAllTodos">Get All TODOS</button>
+
+<hr/>
+
+<div id="jsonDump" style="margin-top:20px"> Json will go here</div>
+
+<!--<label for="limit">limit:</label><input id="limit" type="text" name="limit">-->
+
+<label for="status">status:</label><input id="status" type="text" name="status">
+
+<button type="button" id="getTodosByStatus"> get todos by status</button>
+
+<script>
+  window.onload = function () {
+    console.log("The page is loaded now!");
+
+    var element = document.getElementById('getAllTodos');
+    element.addEventListener("click", getAllTodos, true);
+
+    element = document.getElementById('getTodosByStatus');
+    element.addEventListener("click", getAllTodosByStatus, true);
+    //element.addEventListener("click", getMaxTodos, true);
+
+  }
+</script>
+</body>
+</html>
