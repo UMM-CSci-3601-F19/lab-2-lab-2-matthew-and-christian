@@ -38,6 +38,25 @@ public class TodoDatabase {
     return Arrays.stream(allTodos).filter(x -> x._id.equals(id)).findFirst().orElse(null);
   }
 
+  /*public Todo[] getTodosFromString(Map<String, String[]> queryParams) {
+    Todo[] filteredTodos = allTodos;
+    int i = 0;
+    if(queryParams.containsKey("body")) {
+      while(i < queryParams.get("body") [0].length()) {
+        if(queryParams.equals(queryParams.get("body"))) {
+          String targetString = "";
+          filteredTodos = filterTodosByString(filteredTodos, targetString);
+        }
+        else {
+          if(!(queryParams.equals(queryParams.get("body")))) {
+            i++;
+          }
+        }
+      }
+    }
+    return null;
+  }*/
+
   /**
    * Get an array of all the users satisfying the queries in the params.
    *
@@ -66,6 +85,11 @@ public class TodoDatabase {
           }
          }
       }
+    // if (queryParams.containsKey("limit")) {
+    //  int targetLimit = Integer.parseInt((queryParams.get("limit")[0]));
+     Todo[] placeholderTodos = setMaxTodos(filteredTodos, 9);
+    filteredTodos = placeholderTodos;
+   // }
     // Process other query parameters here...
 
     return filteredTodos;
@@ -83,4 +107,18 @@ public class TodoDatabase {
     return Arrays.stream(todos).filter(x -> x.status == targetStatus).toArray(Todo[]::new);
   }
 
+  public Todo[] filterTodosByString(Todo[] todos, String targetString) {
+    return Arrays.stream(todos).filter(x -> x.body == targetString).toArray(Todo[]::new);
+  }
+  public Todo[] setMaxTodos(Todo[] todos, int x) {
+    Todo[] maxTodo = new Todo[x];
+    for (int i = 0; i < x; i++) {
+     if (todos[i] == null) {
+        return maxTodo;
+      } if (todos[i] != null) {
+        maxTodo[i] = todos[i];
+      }
+    }
+    return maxTodo;
+  }
 }
