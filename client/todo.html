@@ -12,13 +12,42 @@
 
 <hr/>
 
-<div id="jsonDump" style="margin-top:20px"> Json will go here</div>
+<p><b><u>FILTER THE TODOS BELOW</u></b></p>
+<p>*IMPORTANT: Case Sensitive</p>
 
-<label for="limit">limit:</label><input id="limit" type="text" name="limit">
+<div id="jsonDump" style="margin-top:20px"> Json will go here</div>
 
 <label for="status">status:</label><input id="status" type="text" name="status">
 
 <button type="button" id="getTodosByStatus"> get todos by status</button>
+
+<br/>
+
+<label for="contains">contains:</label><input id="contains" type="text" name="contains">
+
+<button type="button" id="getTodosByContains"> get todos by contains</button>
+
+<br/>
+
+<label for="limit">limit:</label><input id="limit" type="text" name="limit">
+
+<button type="button" id="getTodosWithLimit"> get todos with limit</button>
+
+<br/>
+
+<label for="owner">owner:</label><input id="owner" type="text" name="owner">
+
+<button type="button" id="getTodosByOwner"> get todos by owner</button>
+
+<br/>
+
+<label for="category">category:</label><input id="category" type="text" name="category">
+
+<button type="button" id="getTodosByCategory"> get todos by category</button>
+
+<br/>
+
+<button type="button" id="filterUsingAll"> get filtered todos</button>
 
 <script>
   window.onload = function () {
@@ -27,8 +56,25 @@
     var element = document.getElementById('getAllTodos');
     element.addEventListener("click", getAllTodos, true);
 
+    element = document.getElementById('getTodosByOwner');
+    element.addEventListener("click", getTodosByOwner, true);
+
     element = document.getElementById('getTodosByStatus');
     element.addEventListener("click", getAllTodosByStatus, true);
+
+    element = document.getElementById('getTodosByContains');
+    element.addEventListener("click", getAllTodosByContainedString, true);
+
+    element = document.getElementById('getTodosByCategory');
+    element.addEventListener("click", getAllTodosByCategory, true);
+
+    element = document.getElementById('getTodosWithLimit');
+    element.addEventListener("click", getTodosByLimit, true);
+
+    element = document.getElementById('filterUsingAll');
+    element.addEventListener("click",getAllFilteredTodos, true);
+
+
   }
 </script>
 </body>
