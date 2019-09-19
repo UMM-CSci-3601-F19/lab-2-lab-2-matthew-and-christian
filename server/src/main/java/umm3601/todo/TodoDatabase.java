@@ -35,28 +35,25 @@ public class TodoDatabase {
    * with that ID
    */
   public Todo getTodo(String id) {
-    return Arrays.stream(allTodos).filter(x -> x._id.equals(id)).findFirst().orElse(null);
+    return Arrays.stream(allTodos).filter(x -> x._id == id).findFirst().orElse(null);
   }
 
-  /*public Todo[] getTodosFromString(Map<String, String[]> queryParams) {
-    Todo[] filteredTodos = allTodos;
-    int i = 0;
-    if(queryParams.containsKey("body")) {
-      while(i < queryParams.get("body") [0].length()) {
-        if(queryParams.equals(queryParams.get("body"))) {
-          String targetString = "";
-          filteredTodos = filterTodosByString(filteredTodos, targetString);
-        }
-        else {
-          if(!(queryParams.equals(queryParams.get("body")))) {
-            i++;
-          }
-        }
-      }
+ public Todo[] getTodosFromString(Todo[] todos, String target) {
+   int x = todos.length;
+   Todo[] newTodo = new Todo[x];
+   int c = 0;
+   for (int i = 0; i < x; i++) {
+     if (todos[i].body.contains(target)) {
+       newTodo[c] = todos[i];
+       c = c+1;
+     }
+   }
+   Todo[] targetTodo = new Todo[c];
+    for (int i = 0; i < c; i++) {
+      targetTodo[i] = newTodo[i];
     }
-    return null;
-  }*/
-
+    return targetTodo;
+   }
   /**
    * Get an array of all the users satisfying the queries in the params.
    *
@@ -85,11 +82,43 @@ public class TodoDatabase {
           }
          }
       }
-    // if (queryParams.containsKey("limit")) {
-    //  int targetLimit = Integer.parseInt((queryParams.get("limit")[0]));
-     Todo[] placeholderTodos = setMaxTodos(filteredTodos, 9);
-    filteredTodos = placeholderTodos;
-   // }
+    if (queryParams.containsKey("contains")) {
+      if (queryParams.get("contains") [0] != "") {
+        if (filteredTodos != null) {
+          String targetString = queryParams.get("contains")[0];
+          Todo[] targetTodos = getTodosFromString(filteredTodos, targetString);
+          filteredTodos = targetTodos;
+        }
+      }
+    }
+    if (queryParams.containsKey("owner")) {
+      if (queryParams.get("owner") [0] != "") {
+        if (filteredTodos != null) {
+          String targetOwner = queryParams.get("owner") [0];
+          filteredTodos = getTodosbyOwner(filteredTodos, targetOwner);
+        }
+      }
+    }
+    if (queryParams.containsKey("category")) {
+      if (queryParams.get("category") [0] != "") {
+        if (filteredTodos != null) {
+          String targetCategory = queryParams.get("category") [0];
+          filteredTodos = getTodosbyCategory(filteredTodos, targetCategory);
+        }
+      }
+    }
+
+    if (queryParams.containsKey("limit")) {
+      if (!(queryParams.get("limit") [0].equals(""))) {
+        if (filteredTodos != null) {
+          int targetLimit = Integer.parseInt((queryParams.get("limit")[0]));
+          Todo[] targetTodos = setMaxTodos(filteredTodos, targetLimit);
+          filteredTodos = targetTodos;
+        }
+      }
+    }
+
+
     // Process other query parameters here...
 
     return filteredTodos;
@@ -103,20 +132,33 @@ public class TodoDatabase {
    * @return an array of all the users from the given list that have
    * the target age
    */
+
   public Todo[] filterTodosByStatus(Todo[] todos, boolean targetStatus) {
     return Arrays.stream(todos).filter(x -> x.status == targetStatus).toArray(Todo[]::new);
   }
 
-  public Todo[] filterTodosByString(Todo[] todos, String targetString) {
-    return Arrays.stream(todos).filter(x -> x.body == targetString).toArray(Todo[]::new);
+  public Todo[] getTodosbyOwner (Todo[] todos, String target) {
+    return Arrays.stream(todos).filter(x -> x.owner.equals(target)).toArray(Todo[]::new);
   }
+
+  public Todo[] getTodosbyCategory (Todo[] todos, String target) {
+    return Arrays.stream(todos).filter(x -> x.category.equals(target)).toArray(Todo[]::new);
+  }
+
   public Todo[] setMaxTodos(Todo[] todos, int x) {
     Todo[] maxTodo = new Todo[x];
+    int c = 0;
+
     for (int i = 0; i < x; i++) {
-     if (todos[i] == null) {
-        return maxTodo;
+      Todo[] targetTodo = new Todo[c];
+      if (i ==todos.length) {
+       for (int k = 0; k < c; k++) {
+         targetTodo[k] = maxTodo[k];
+       }
+        return targetTodo;
       } if (todos[i] != null) {
         maxTodo[i] = todos[i];
+        c = c + 1;
       }
     }
     return maxTodo;
